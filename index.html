@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <link
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style>
+    .material-switch > input[type="checkbox"] {
+      display: none;
+      opacity: 0.2;
+    }
+
+    .material-switch > label {
+      cursor: pointer;
+      height: 0px;
+      position: relative;
+      width: 40px;
+    }
+
+    .material-switch > label::before {
+      background: rgba(255, 255, 255, 0);
+      box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      content: "";
+      height: 20px;
+      margin-top: -8px;
+      position: absolute;
+      top: 4px;
+      opacity: 0.3;
+      transition: all 0.4s ease-in-out;
+      width: 40px;
+    }
+
+    .material-switch > label::after {
+      background: rgba(255, 255, 255, 0.493);
+      border-radius: 20px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+      content: "";
+      height: 24px;
+      left: -4px;
+      margin-top: -8px;
+      position: absolute;
+      top: 1px;
+      transition: all 0.3s ease-in-out;
+      width: 24px;
+    }
+
+    .material-switch > input[type="checkbox"]:checked + label::before {
+      background: inherit;
+      opacity: 0.5;
+    }
+
+    .material-switch > input[type="checkbox"]:checked + label::after {
+      background: inherit;
+      left: 20px;
+    }
+
+    .transparent {
+      background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .panel {
+      background-color: transparent;
+      border: 0.1px #222;
+    }
+
+    .sub-list-group-item {
+      margin-top: 1.5em;
+      list-style: none;
+      padding: 0;
+      display: none;
+    }
+  </style>
+
+  <body style="margin: 0px; overflow: hidden;">
+    <div
+      style="
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 50%;
+        text-align: left;
+        z-index: 1;
+      "
+    >
+      <div
+        class="panel panel-default"
+        style="
+          position: absolute;
+          top: 1px;
+          left: 20px;
+          width: 180px;
+          font-size: 10px;
+        "
+      >
+        <!-- Default panel contents -->
+        <div
+          class="panel-heading"
+          class="text-info"
+          style="text-align: center; background-color: rgba(20, 31, 18, 0.253);"
+        >
+          Sistemas Del Cuerpo Humano
+        </div>
+
+        <!-- List group -->
+        <ul class="list-group transparent" data-toggle="collapse">
+          <!-- Sistema Muscular ----------------------
+          <li id="item-sr" class="list-group-item transparent">
+            Sistema Muscular
+            <div class="material-switch pull-right">
+              <input
+                id="sm"
+                checked
+                name="someSwitchOption001"
+                type="checkbox"
+              />
+              <label for="sm" class="label-success"></label>
+            </div>
+          </li>
+          ----->
+          <!-- Sistema Circulatorio --------------------------->
+          <li id="item-sc" class="list-group-item transparent">
+            <span onclick="collapse('item-sc')" style="cursor: pointer;"
+              ><span class="glyphicon glyphicon-triangle-bottom"></span> Sistema
+              Circulatorio</span
+            >
+            <div class="material-switch pull-right">
+              <input
+                id="sc"
+                checked="true"
+                name="someSwitchOption001"
+                type="checkbox"
+              />
+              <label for="sc" class="label-success"></label>
+            </div>
+            <!-- Organos Sistema Circu -->
+            <ul class="sub-list-group-item">
+              <li class="list-group-item transparent">
+                Coraz&oacute;n
+                <div class="material-switch pull-right">
+                  <input
+                    id="corazon"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="corazon" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Venas
+                <div class="material-switch pull-right">
+                  <input
+                    id="venas"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="venas" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Art&eacute;erias
+                <div class="material-switch pull-right">
+                  <input
+                    id="arterias"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="arterias" class="label-success"></label>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Sistema Digestivo --------------------------->
+          <li id="item-sd" class="list-group-item transparent">
+            <span onclick="collapse('item-sd')" style="cursor: pointer;"
+              ><span class="glyphicon glyphicon-triangle-bottom"></span> Sistema
+              Digestivo</span
+            >
+            <div class="material-switch pull-right">
+              <input
+                id="sd"
+                checked="true"
+                name="someSwitchOption001"
+                type="checkbox"
+              />
+              <label for="sd" class="label-success"></label>
+            </div>
+            <!-- Organos Sistema Circu -->
+            <ul class="sub-list-group-item">
+              <li class="list-group-item transparent">
+                Es&oacute;fago
+                <div class="material-switch pull-right">
+                  <input
+                    id="esofago"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="esofago" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Est&oacute;mago
+                <div class="material-switch pull-right">
+                  <input
+                    id="estomago"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="estomago" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Intestino Grueso
+                <div class="material-switch pull-right">
+                  <input
+                    id="grueso"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="grueso" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Intestino Delgado
+                <div class="material-switch pull-right">
+                  <input
+                    id="delgado"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="delgado" class="label-success"></label>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Sistema Oseo --------------------------->
+          <li id="item-so" class="list-group-item transparent">
+            <span onclick="collapse('item-so')" style="cursor: pointer;"
+              ><span class="glyphicon glyphicon-triangle-bottom"></span> Sistema
+              &Oacute;seo</span
+            >
+            <div class="material-switch pull-right">
+              <input
+                id="so"
+                checked="true"
+                name="someSwitchOption001"
+                type="checkbox"
+              />
+              <label for="so" class="label-success"></label>
+            </div>
+            <!-- Organos Sistema Circu -->
+            <ul class="sub-list-group-item">
+                <li class="list-group-item transparent">
+                    Craneo
+                   <div class="material-switch pull-right">
+                     <input
+                       id="craneo"
+                       checked="true"
+                       name="someSwitchOption001"
+                       type="checkbox"
+                     />
+                     <label for="craneo" class="label-success"></label>
+                   </div>
+                  </li>
+              <li class="list-group-item transparent">
+                 Columna
+                <div class="material-switch pull-right">
+                  <input
+                    id="columna"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="columna" class="label-success"></label>
+                </div>
+               </li>
+              <li class="list-group-item transparent">
+                Torax
+                <div class="material-switch pull-right">
+                  <input
+                    id="torax"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="torax" class="label-success"></label>
+                </div>
+              </li>
+              <li
+                class="list-group-item transparent"
+                style="
+                  font-size: 10px;
+                  text-align: left;
+                  text-decoration: underline;
+                "
+              >
+                Extremidades:
+              </li>
+              <li class="list-group-item transparent">
+                Superiores
+                <div class="material-switch pull-right">
+                  <input
+                    id="superiores"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="superiores" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent">
+                Inferiores
+                <div class="material-switch pull-right">
+                  <input
+                    id="inferiores"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="inferiores" class="label-success"></label>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Sistema Respiratorio --------------------------->
+          <li id="item-sr" class="list-group-item transparent">
+            <span onclick="collapse('item-sr')" style="cursor: pointer;"
+              ><span class="glyphicon glyphicon-triangle-bottom"></span> Sistema
+              Respiratorio</span
+            >
+            <div class="material-switch pull-right">
+              <input
+                id="sr"
+                type="checkbox"
+                checked="true"
+                name="someSwitchOption001"
+              />
+              <label for="sr" class="label-success"></label>
+            </div>
+            <!-- Organos Sistema respi -->
+            <ul class="sub-list-group-item">
+              <li class="list-group-item transparent">
+                Pulmones
+                <div class="material-switch pull-right">
+                  <input
+                    id="pulmones"
+                    type="checkbox"
+                    checked="true"
+                    name="someSwitchOption001"
+                  />
+                  <label for="pulmones" class="label-success"></label>
+                </div>
+              </li>
+              <li class="list-group-item transparent" id="li_faringe">
+                Faringe
+                <div class="material-switch pull-right">
+                  <input
+                    id="faringe"
+                    checked="true"
+                    name="someSwitchOption001"
+                    type="checkbox"
+                  />
+                  <label for="faringe" class="label-success"></label>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="column">
+        <a-scene
+          vr-mode-ui="enabled: false;"
+          renderer="logarithmicDepthBuffer: true;"
+          embedded
+          arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+        >
+          <!-- handle hiro marker -->
+          <a-marker preset="hiro" id="marcador">
+            <!-- Respiratorio -->
+            <a-entity
+              id="E_pulmones"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/respiratorio/pulmones.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_faringe"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/respiratorio/faringe.gltf"
+            ></a-entity>
+            <!-- Circulatorio -->
+            <a-entity
+              id="E_arterias"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/circulatorio/arterias.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_corazon"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/circulatorio/corazon.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_venas"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/circulatorio/venas.gltf"
+            ></a-entity>
+            <!-- Oseo -->
+            <a-entity
+              id="E_columna"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/oseo/columna.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_torax"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/oseo/torax.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_craneo"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/oseo/craneo.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_inferiores"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/oseo/inferiores.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_superiores"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/oseo/superiores.gltf"
+            ></a-entity>
+            <!-- Digestivo -->
+            <a-entity
+              id="E_delgado"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/digestivo/delgado.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_esofago"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/digestivo/esofago.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_estomago"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/digestivo/estomago.gltf"
+            ></a-entity>
+            <a-entity
+              id="E_grueso"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/digestivo/grueso.gltf"
+            ></a-entity>
+            <!-- Muscular
+            <a-entity
+              id="E_delgado"
+              position="0 0 -1.7"
+              scale="0.005 0.005 0.005"
+              gltf-model="/muscular/muscular.gltf"
+            ></a-entity>
+            -->
+          </a-marker>
+
+          <!-- add a simple camera -->
+          <a-entity camera></a-entity>
+        </a-scene>
+      </div>
+    </div>
+
+    <script>
+      const POSICION = "0 0 -1.7";
+      const ESCALA = "0.005 0.005 0.005";
+
+      var sr = document.getElementById("sr");
+      sr.addEventListener("click", fnc_respiratorio, false);
+
+      function fnc_respiratorio() {
+        var marcador = document.getElementById("marcador");
+        var pulmones = document.getElementById("E_pulmones");
+        var faringe = document.getElementById("E_faringe");
+
+        if (sr.getAttribute("checked") == "true") {
+          marcador.removeChild(pulmones);
+          marcador.removeChild(faringe);
+          console.log("PasooS");
+          sr.setAttribute("checked", "false");
+        } else {
+
+          var childPulmones = document.createElement("a-entity");
+          childPulmones.id = "E_pulmones";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+          var gltfmodelPulmones = document.createAttribute("gltf-model");
+
+          gltfmodelPulmones.value = "/respiratorio/pulmones.gltf";
+          childPulmones.setAttributeNode(position);
+          childPulmones.setAttributeNode(scale);
+          childPulmones.setAttributeNode(gltfmodelPulmones);
+          marcador.appendChild(childPulmones);
+
+          var childFaringe = document.createElement("a-entity");
+          childFaringe.id = "E_faringe";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelFaringe = document.createAttribute("gltf-model");
+          gltfmodelFaringe.value = "/respiratorio/faringe.gltf";
+
+          childFaringe.setAttributeNode(position);
+          childFaringe.setAttributeNode(scale);
+          childFaringe.setAttributeNode(gltfmodelFaringe);
+          marcador.appendChild(childFaringe);
+
+          sr.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_pulmones = document.getElementById("pulmones");
+      swt_pulmones.addEventListener("click", fnc_pulmones, false);
+
+      function fnc_pulmones() {
+        var pulmones = document.getElementById("E_pulmones");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_pulmones.getAttribute("checked") == "true" &&
+          sr.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(pulmones);
+
+          swt_pulmones.setAttribute("checked", "false");
+        } else if (
+          swt_pulmones.getAttribute("checked") == "false" &&
+          sr.getAttribute("checked") == "true"
+        ) {
+          console.log("Creando Componente");
+
+          var childPulmones = document.createElement("a-entity");
+          childPulmones.id = "E_pulmones";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelPulmones = document.createAttribute("gltf-model");
+          gltfmodelPulmones.value = "/respiratorio/pulmones.gltf";
+
+          childPulmones.setAttributeNode(position);
+          childPulmones.setAttributeNode(scale);
+          childPulmones.setAttributeNode(gltfmodelPulmones);
+          marcador.appendChild(childPulmones);
+
+          swt_pulmones.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_faringe = document.getElementById("faringe");
+      swt_faringe.addEventListener("click", fnc_faringe, false);
+
+      function fnc_faringe() {
+        var faringe = document.getElementById("E_faringe");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_faringe.getAttribute("checked") == "true" &&
+          sr.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(faringe);
+          swt_faringe.setAttribute("checked", "false");
+        } else if (
+          swt_faringe.getAttribute("checked") == "false" &&
+          sr.getAttribute("checked") == "true"
+        ) {
+          var childFaringe = document.createElement("a-entity");
+          childFaringe.id = "E_faringe";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelFaringe = document.createAttribute("gltf-model");
+          gltfmodelFaringe.value = "/respiratorio/faringe.gltf";
+
+          childFaringe.setAttributeNode(position);
+          childFaringe.setAttributeNode(scale);
+          childFaringe.setAttributeNode(gltfmodelFaringe);
+          marcador.appendChild(childFaringe);
+
+          swt_faringe.setAttribute("checked", "true");
+        }
+      }
+
+      var sc = document.getElementById("sc");
+      sc.addEventListener("click", fnc_circulatorio, false);
+
+      function fnc_circulatorio() {
+        var marcador = document.getElementById("marcador");
+        var venas = document.getElementById("E_venas");
+        var arterias = document.getElementById("E_arterias");
+        var corazon = document.getElementById("E_venas");
+
+        if (sc !== null) {
+          marcador.removeChild(circu);
+        } else {
+          var child = document.createElement("a-entity");
+          child.id = "circu";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          var gltfmodel = document.createAttribute("gltf-model");
+
+          position.value = POSICION;
+          scale.value = ESCALA;
+          gltfmodel.value = "/path/animacion/circu.gltf";
+
+          child.setAttributeNode(position);
+          child.setAttributeNode(scale);
+          child.setAttributeNode(gltfmodel);
+          marcador.appendChild(child);
+        }
+      }
+
+      var swt_corazon = document.getElementById("corazon");
+      swt_corazon.addEventListener("click", fnc_corazon, false);
+
+      function fnc_corazon() {
+        var corazon = document.getElementById("E_corazon");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_corazon.getAttribute("checked") == "true" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(corazon);
+          swt_corazon.setAttribute("checked", "false");
+        } else if (
+          swt_corazon.getAttribute("checked") == "false" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          var childCorazon = document.createElement("a-entity");
+          childCorazon.id = "E_corazon";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelCorazon = document.createAttribute("gltf-model");
+          gltfmodelCorazon.value = "/circulatorio/corazon.gltf";
+
+          childCorazon.setAttributeNode(position);
+          childCorazon.setAttributeNode(scale);
+          childCorazon.setAttributeNode(gltfmodelCorazon);
+          marcador.appendChild(childCorazon);
+
+          swt_corazon.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_venas = document.getElementById("venas");
+      swt_venas.addEventListener("click", fnc_venas, false);
+
+      function fnc_venas() {
+        var venas = document.getElementById("E_venas");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_venas.getAttribute("checked") == "true" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(venas);
+
+          swt_venas.setAttribute("checked", "false");
+        } else if (
+          swt_venas.getAttribute("checked") == "false" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          var childvenas = document.createElement("a-entity");
+          childvenas.id = "E_venas";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelvenas = document.createAttribute("gltf-model");
+          gltfmodelvenas.value = "/circulatorio/venas.gltf";
+
+          childvenas.setAttributeNode(position);
+          childvenas.setAttributeNode(scale);
+          childvenas.setAttributeNode(gltfmodelvenas);
+          marcador.appendChild(childvenas);
+
+          swt_venas.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_arterias = document.getElementById("arterias");
+      swt_arterias.addEventListener("click", fnc_arterias, false);
+
+      function fnc_arterias() {
+        var arterias = document.getElementById("E_arterias");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_arterias.getAttribute("checked") == "true" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(arterias);
+          swt_arterias.setAttribute("checked", "false");
+        } else if (
+          swt_arterias.getAttribute("checked") == "false" &&
+          sc.getAttribute("checked") == "true"
+        ) {
+          var childarterias = document.createElement("a-entity");
+          childarterias.id = "E_arterias";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelarterias = document.createAttribute("gltf-model");
+          gltfmodelarterias.value = "/circulatorio/arterias.gltf";
+
+          childarterias.setAttributeNode(position);
+          childarterias.setAttributeNode(scale);
+          childarterias.setAttributeNode(gltfmodelarterias);
+          marcador.appendChild(childarterias);
+
+          swt_arterias.setAttribute("checked", "true");
+        }
+      }
+
+      var sc = document.getElementById("sd");
+      sd.addEventListener("click", fnc_digestivo, false);
+
+      function fnc_digestivo() {}
+
+      var swt_delgado = document.getElementById("delgado");
+      swt_delgado.addEventListener("click", fnc_delgado, false);
+
+      function fnc_delgado() {
+        var delgado = document.getElementById("E_delgado");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_delgado.getAttribute("checked") == "true" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(delgado);
+          swt_delgado.setAttribute("checked", "false");
+        } else if (
+          swt_delgado.getAttribute("checked") == "false" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          var childdelgado = document.createElement("a-entity");
+          childdelgado.id = "E_delgado";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodeldelgado = document.createAttribute("gltf-model");
+          gltfmodeldelgado.value = "/digestivo/delgado.gltf";
+
+          childdelgado.setAttributeNode(position);
+          childdelgado.setAttributeNode(scale);
+          childdelgado.setAttributeNode(gltfmodeldelgado);
+          marcador.appendChild(childdelgado);
+
+          swt_delgado.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_grueso = document.getElementById("grueso");
+      swt_grueso.addEventListener("click", fnc_grueso, false);
+
+      function fnc_grueso() {
+        var grueso = document.getElementById("E_grueso");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_grueso.getAttribute("checked") == "true" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(grueso);
+          swt_grueso.setAttribute("checked", "false");
+        } else if (
+          swt_grueso.getAttribute("checked") == "false" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          var childgrueso = document.createElement("a-entity");
+          childgrueso.id = "E_grueso";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelgrueso = document.createAttribute("gltf-model");
+          gltfmodelgrueso.value = "/digestivo/grueso.gltf";
+
+          childgrueso.setAttributeNode(position);
+          childgrueso.setAttributeNode(scale);
+          childgrueso.setAttributeNode(gltfmodelgrueso);
+          marcador.appendChild(childgrueso);
+
+          swt_grueso.setAttribute("checked", "true");
+        }
+      }
+
+      var swt_estomago = document.getElementById("estomago");
+      swt_estomago.addEventListener("click", fnc_estomago, false);
+
+      function fnc_estomago() {
+        var estomago = document.getElementById("E_estomago");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_estomago.getAttribute("checked") == "true" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(estomago);
+          swt_estomago.setAttribute("checked", "false");
+        } else if (
+          swt_estomago.getAttribute("checked") == "false" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+
+          var childestomago = document.createElement("a-entity");
+          childestomago.id = "E_estomago";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelestomago = document.createAttribute("gltf-model");
+          gltfmodelestomago.value = "/digestivo/estomago.gltf";
+
+          childestomago.setAttributeNode(position);
+          childestomago.setAttributeNode(scale);
+          childestomago.setAttributeNode(gltfmodelestomago);
+          marcador.appendChild(childestomago);
+
+          swt_estomago.setAttribute("checked", "true");
+        }
+      }
+    
+      var swt_esofago = document.getElementById("esofago");
+      swt_esofago.addEventListener("click", fnc_esofago, false);
+
+      function fnc_esofago() {
+        var esofago = document.getElementById("E_esofago");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_esofago.getAttribute("checked") == "true" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(esofago);
+          swt_esofago.setAttribute("checked", "false");
+        } else if (
+          swt_esofago.getAttribute("checked") == "false" &&
+          sd.getAttribute("checked") == "true"
+        ) {
+          var childesofago = document.createElement("a-entity");
+          childesofago.id = "E_esofago";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelesofago = document.createAttribute("gltf-model");
+          gltfmodelesofago.value = "/digestivo/esofago.gltf";
+
+          childesofago.setAttributeNode(position);
+          childesofago.setAttributeNode(scale);
+          childesofago.setAttributeNode(gltfmodelesofago);
+          marcador.appendChild(childesofago);
+
+          swt_esofago.setAttribute("checked", "true");
+        }
+      }
+    
+      var so = document.getElementById("so");
+      so.addEventListener("click", fnc_oseo, false);
+
+      function fnc_oseo() {        
+        var entcolumna = document.getElementById("E_columna");
+        var entCraneo = document.getElementById("E_craneo");
+        var entinferiores = document.getElementById("E_inferiores");
+        var entsuperiores = document.getElementById("E_superiores");
+        var enttorax = document.getElementById("E_torax");
+
+        var swt_columna = document.getElementById("columna");
+        var swt_craneo = document.getElementById("craneo");
+        var swt_inferiores = document.getElementById("inferiores");
+        var swt_superiores = document.getElementById("superiores");
+        var swt_torax = document.getElementById("torax");
+
+        
+        var marcador = document.getElementById("marcador");
+        var unchecked = document.createAttribute("unchecked");
+        unchecked.value = "false";
+
+        var checked = document.createAttribute("checked");
+        checked.value = "true";
+
+
+        
+        if(entCraneo != null){
+          marcador.removeChild(entCraneo);
+          swt_craneo.removeAttribute("checked");
+          swt_craneo.setAttributeNode(unchecked);
+          swt_craneo.setAttribute("unchecked","false");
+        }else{
+          swt_craneo.removeAttribute(unchecked);
+          swt_craneo.setAttributeNode(checked);
+        }
+        
+/*
+        if(so.getAttribute("checked") == "true"){
+          so.setAttribute("checked", "false");
+          swt_craneo.setAttribute("checked", "false");
+          swt_columna.setAttribute("checked", "false");
+          swt_torax.setAttribute("checked", "false");
+          swt_superiores.setAttribute("checked", "false");
+          swt_inferiores.setAttribute("checked", "false");
+          fnc_craneo();
+          fnc_columna();
+          fnc_torax();
+          fnc_superiores();
+          fnc_inferiores();
+          
+        }else{
+          so.setAttribute("checked", "true");
+          swt_craneo.setAttribute("checked", "true");
+          swt_columna.setAttribute("checked", "true");
+          swt_torax.setAttribute("checked", "true");
+          swt_superiores.setAttribute("checked", "true");
+          swt_inferiores.setAttribute("checked", "true");
+          fnc_craneo();
+          fnc_columna();
+          fnc_torax();
+          fnc_superiores();
+          fnc_inferiores();
+        }
+
+        */
+        
+      }
+/*
+        if(so.getAttribute("checked") == "true"){
+          if(swt_craneo.getAttribute("checked") == "true"){
+          fnc_craneo();
+        }
+        if(swt_columna.getAttribute("checked") == "true"){
+          fnc_columna();
+        }
+        if(swt_torax.getAttribute("checked") == "true"){
+          fnc_torax();
+        }
+        if(swt_superiores.getAttribute("checked") == "true"){
+          fnc_superiores();
+        }
+        if(swt_inferiores.getAttribute("checked") == "true"){
+          fnc_inferiores();
+        }
+        }else if(so.getAttribute("checked") == "false"){
+
+        }*/
+      
+
+      var swt_craneo = document.getElementById("craneo");
+      swt_craneo.addEventListener("click", fnc_craneo, false);
+
+      function fnc_craneo() {
+        var craneo = document.getElementById("E_craneo");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_craneo.getAttribute("checked") == "true" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(craneo);
+          swt_craneo.setAttribute("checked", "false");
+        } else if (
+          swt_craneo.getAttribute("checked") == "false" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          var childcraneo = document.createElement("a-entity");
+          childcraneo.id = "E_craneo";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelcraneo = document.createAttribute("gltf-model");
+          gltfmodelcraneo.value = "/oseo/craneo.gltf";
+
+          childcraneo.setAttributeNode(position);
+          childcraneo.setAttributeNode(scale);
+          childcraneo.setAttributeNode(gltfmodelcraneo);
+          marcador.appendChild(childcraneo);
+
+          swt_craneo.setAttribute("checked", "true");
+        }
+      }
+      
+      
+      var swt_columna = document.getElementById("columna");
+      swt_columna.addEventListener("click", fnc_columna, false);
+
+      function fnc_columna() {
+        var columna = document.getElementById("E_columna");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_columna.getAttribute("checked") == "true" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(columna);
+          swt_columna.setAttribute("checked", "false");
+        } else if (
+          swt_columna.getAttribute("checked") == "false" &&
+          so.getAttribute("checked") == "true"
+        ) {
+
+          var childcolumna = document.createElement("a-entity");
+          childcolumna.id = "E_columna";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelcolumna = document.createAttribute("gltf-model");
+          gltfmodelcolumna.value = "/oseo/columna.gltf";
+
+          childcolumna.setAttributeNode(position);
+          childcolumna.setAttributeNode(scale);
+          childcolumna.setAttributeNode(gltfmodelcolumna);
+          marcador.appendChild(childcolumna);
+
+          swt_columna.setAttribute("checked", "true");
+        }
+      }
+
+
+      var swt_torax = document.getElementById("torax");
+      swt_torax.addEventListener("click", fnc_torax, false);
+
+      function fnc_torax() {
+        var torax = document.getElementById("E_torax");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_torax.getAttribute("checked") == "true" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          
+          marcador.removeChild(torax);
+         
+          swt_torax.setAttribute("checked", "false");
+        } else if (
+          swt_torax.getAttribute("checked") == "false" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          
+
+          var childtorax = document.createElement("a-entity");
+          childtorax.id = "E_torax";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodeltorax = document.createAttribute("gltf-model");
+          gltfmodeltorax.value = "/oseo/torax.gltf";
+
+          childtorax.setAttributeNode(position);
+          childtorax.setAttributeNode(scale);
+          childtorax.setAttributeNode(gltfmodeltorax);
+          marcador.appendChild(childtorax);
+
+          swt_torax.setAttribute("checked", "true");
+        }
+      }
+ 
+      var swt_superiores = document.getElementById("superiores");
+      swt_superiores.addEventListener("click", fnc_superiores, false);
+
+      function fnc_superiores() {
+        var superiores = document.getElementById("E_superiores");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_superiores.getAttribute("checked") == "true" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          
+          marcador.removeChild(superiores);
+          swt_superiores.setAttribute("checked", "false");
+        } else if (
+          swt_superiores.getAttribute("checked") == "false" &&
+          so.getAttribute("checked") == "true"
+        ) {
+
+          var childsuperiores = document.createElement("a-entity");
+          childsuperiores.id = "E_superiores";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelsuperiores = document.createAttribute("gltf-model");
+          gltfmodelsuperiores.value = "/oseo/superiores.gltf";
+
+          childsuperiores.setAttributeNode(position);
+          childsuperiores.setAttributeNode(scale);
+          childsuperiores.setAttributeNode(gltfmodelsuperiores);
+          marcador.appendChild(childsuperiores);
+
+          swt_superiores.setAttribute("checked", "true");
+        }
+      }
+    
+      var swt_inferiores = document.getElementById("inferiores");
+      swt_inferiores.addEventListener("click", fnc_inferiores, false);
+
+      function fnc_inferiores() {
+        var inferiores = document.getElementById("E_inferiores");
+        var marcador = document.getElementById("marcador");
+
+        if (
+          swt_inferiores.getAttribute("checked") == "true" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          marcador.removeChild(inferiores);
+          swt_inferiores.setAttribute("checked", "false");
+        } else if (
+          swt_inferiores.getAttribute("checked") == "false" &&
+          so.getAttribute("checked") == "true"
+        ) {
+          var childinferiores = document.createElement("a-entity");
+          childinferiores.id = "E_inferiores";
+
+          var position = document.createAttribute("position");
+          var scale = document.createAttribute("scale");
+          position.value = POSICION;
+          scale.value = ESCALA;
+
+          var gltfmodelinferiores = document.createAttribute("gltf-model");
+          gltfmodelinferiores.value = "/oseo/inferiores.gltf";
+
+          childinferiores.setAttributeNode(position);
+          childinferiores.setAttributeNode(scale);
+          childinferiores.setAttributeNode(gltfmodelinferiores);
+          marcador.appendChild(childinferiores);
+
+          swt_inferiores.setAttribute("checked", "true");
+        }
+      }
+    
+    
+    </script>
+
+    
+    
+    </script>
+
+
+    <script>
+      function collapse(item) {
+        $("#" + item + " .sub-list-group-item").slideToggle();
+      }
+    </script>
+  </body>
+</html>
